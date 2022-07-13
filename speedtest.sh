@@ -7,11 +7,11 @@ DB_HOST="${DB_HOST:-http://localhost:8086}"
 DB_NAME="${DB_NAME:-speedtest}"
 DB_USERNAME="${DB_USERNAME:-admin}"
 DB_PASSWORD="${DB_PASSWORD:-password}"
+HOSTNAME="${HOSTNAME:-`hostname`}"
 
 run_speedtest()
 {
     DATE=$(date +%s)
-    HOSTNAME=$(hostname)
 
     # Start speed test
     echo "Running a Speed Test..."
@@ -24,7 +24,7 @@ run_speedtest()
     echo "Your ping is $PING ms."
 
     # Save results in the database
-    if $DB_SAVE; 
+    if $DB_SAVE;
     then
         echo "Saving values to database..."
         curl -s -S -XPOST "$DB_HOST/write?db=$DB_NAME&precision=s&u=$DB_USERNAME&p=$DB_PASSWORD" \

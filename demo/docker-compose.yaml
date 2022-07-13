@@ -30,6 +30,7 @@ services:
       - DB_NAME=speedtest
       - DB_USERNAME=admin
       - DB_PASSWORD=password
+      - HOSTNAME=hostname
 
 volumes:
   grafana:
