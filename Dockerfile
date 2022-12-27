@@ -1,4 +1,6 @@
 FROM debian:bullseye
+ARG TARGETPLATFORM
+ARG TARGETOS
 
 # Install basics
 RUN apt-get update && apt-get install -y curl jq gnupg1 apt-transport-https dirmngr
@@ -12,9 +14,11 @@ RUN apt-get purge speedtest-cli || true
 #RUN apt-get install speedtest
 
 # Alternat installation until bug in instal.deb.sh fixed
-RUN curl -O https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz && \
-    tar -xzf ookla-speedtest-1.1.1-linux-x86_64.tgz speedtest && \
-    mv speedtest /usr/bin/.
+COPY ./multi-arch-install.sh .
+RUN ./multi-arch-install.sh $TARGETPLATFORM $TARGETOS
+#RUN curl -O https://install.speedtest.net/app/cli/ookla-speedtest-1.1.1-linux-x86_64.tgz && \
+#    tar -xzf ookla-speedtest-1.1.1-linux-x86_64.tgz speedtest && \
+#    mv speedtest /usr/bin/.
 
 COPY ./speedtest.sh .
 CMD ["./speedtest.sh"]
